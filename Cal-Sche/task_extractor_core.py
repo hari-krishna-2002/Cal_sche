@@ -1,12 +1,19 @@
 # task_extractor_core.py
 
 import spacy
+import subprocess
+import sys
 import dateparser
 from datetime import datetime
 import re
 from dateparser.search import search_dates
 
-nlp = spacy.load("en_core_web_sm")
+
+try:
+    nlp = spacy.load("en_core_web_sm")
+except OSError:
+    subprocess.run([sys.executable, "-m", "spacy", "download", "en_core_web_sm"], check=True)
+    nlp = spacy.load("en_core_web_sm")
 
 ACTION_VERBS = {
     "submit", "complete", "finish", "send", "deliver", "review", "prepare",
